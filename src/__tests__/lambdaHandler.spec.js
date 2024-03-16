@@ -1,12 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { HTTP, log } from "@jaypie/core";
-import {
-  jsonApiErrorSchema,
-  matchers,
-  restoreLog,
-  spyLog,
-} from "@jaypie/testkit";
+import { matchers, restoreLog, spyLog } from "@jaypie/testkit";
 
 // Subject
 import lambdaHandler from "../lambdaHandler.js";
@@ -72,8 +67,7 @@ describe("Lambda Handler Module", () => {
       // Act
       const result = await handler();
       // Assert
-      expect(result).toBeObject();
-      expect(result).toMatchSchema(jsonApiErrorSchema);
+      expect(result).toBeJaypieError();
     });
     it("Returns an error if a lifecycle function throws", async () => {
       // Arrange
@@ -88,8 +82,7 @@ describe("Lambda Handler Module", () => {
       // Act
       const result = await handler();
       // Assert
-      expect(result).toBeObject();
-      expect(result).toMatchSchema(jsonApiErrorSchema);
+      expect(result).toBeJaypieError();
       expect(result.errors[0].status).toBe(HTTP.CODE.INTERNAL_ERROR);
     });
     it("Returns unavailable if PROJECT_UNAVAILABLE is set", async () => {
@@ -101,8 +94,7 @@ describe("Lambda Handler Module", () => {
       // Act
       const result = await handler();
       // Assert
-      expect(result).toBeObject();
-      expect(result).toMatchSchema(jsonApiErrorSchema);
+      expect(result).toBeJaypieError();
       expect(result.errors[0].status).toBe(HTTP.CODE.UNAVAILABLE);
     });
   });
