@@ -1,6 +1,8 @@
+import lambdaHandler from "./lambdaHandler.js";
+
 //
 //
 // Export
 //
 
-export default {};
+export { lambdaHandler };
