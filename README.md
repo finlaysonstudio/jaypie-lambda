@@ -28,6 +28,7 @@ TODO: Reference should be a complete list of everything in the package
 
 | Date       | Version | Summary        |
 | ---------- | ------- | -------------- |
+|  3/16/2024 |   0.1.0 | Initial deploy |
 |  3/15/2024 |   0.0.1 | Initial commit |
 
 ## 📜 License
