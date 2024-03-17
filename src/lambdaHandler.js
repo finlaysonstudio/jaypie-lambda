@@ -33,8 +33,11 @@ const lambdaHandler = (
   // Setup
   //
 
-  const moduleLogger = defaultModuleLogger.with({
+  const jaypieLogger = defaultModuleLogger.with({
     handler: name || handler.name || JAYPIE.UNKNOWN,
+    logger: JAYPIE.LAYER.LAMBDA,
+  });
+  const moduleLogger = jaypieLogger.with({
     layer: JAYPIE.LAYER.LAMBDA,
     lib: JAYPIE.LIB.LAMBDA,
   });
@@ -53,7 +56,7 @@ const lambdaHandler = (
 
   const jaypieFunction = jaypieHandler(handler, {
     log,
-    moduleLogger: defaultModuleLogger,
+    moduleLogger: jaypieLogger,
     name,
     setup,
     teardown,
@@ -65,8 +68,11 @@ const lambdaHandler = (
     let response;
 
     try {
-      moduleLogger.trace("[jaypie] Lambda execution"); // - Should have more log tags
+      jaypieLogger.tag({ invoke: context.awsRequestId });
       log.tag({ invoke: context.awsRequestId });
+      moduleLogger.tag({ invoke: context.awsRequestId });
+
+      moduleLogger.trace("[jaypie] Lambda execution");
       log.info.var({ event });
 
       //
