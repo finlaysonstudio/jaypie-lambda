@@ -164,5 +164,23 @@ describe("Lambda Handler Module", () => {
       // Assert
       expect(result).toBe(42);
     });
+    describe("Features", () => {
+      it("Provides a logger with handler and layer", async () => {
+        // Arrange
+        const mockFunction = vi.fn(() => {
+          log.warn("Alert level zero");
+        });
+        const handler = lambdaHandler(mockFunction);
+        // Assume
+        expect(log.tag).not.toHaveBeenCalled();
+        expect(log.warn).not.toHaveBeenCalled();
+        // Act
+        await handler();
+        // Assert
+        expect(log.tag).toHaveBeenCalledTimes(1);
+        expect(log.warn).toHaveBeenCalledTimes(1);
+        // TODO: assert log tags include handler and layer with valid values
+      });
+    });
   });
 });
