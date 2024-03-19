@@ -66,7 +66,8 @@ const lambdaHandler = (
     let response;
 
     // - Persisting "with" is controversial in my own mind
-    const log = publicLogger.with({
+    const log = publicLogger.lib({
+      level: publicLogger.level,
       lib: JAYPIE.LIB.LAMBDA,
     });
 
