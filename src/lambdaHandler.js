@@ -45,7 +45,6 @@ const lambdaHandler = (
 
   // Very low-level, sub-trace details
   const libLogger = publicLogger.lib({
-    layer: JAYPIE.LAYER.LAMBDA,
     lib: JAYPIE.LIB.LAMBDA,
   });
   libLogger.trace("[jaypie] Lambda init");
@@ -66,10 +65,8 @@ const lambdaHandler = (
   return async (event = {}, context = {}, ...args) => {
     let response;
 
-    // `log` will NOT receive new tags from `publicLogger` (probably will not matter)
     // - Persisting "with" is controversial in my own mind
     const log = publicLogger.with({
-      layer: JAYPIE.LAYER.LAMBDA,
       lib: JAYPIE.LIB.LAMBDA,
     });
 
