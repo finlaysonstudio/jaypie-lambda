@@ -119,7 +119,7 @@ describe("Lambda Handler Module", () => {
       // Act
       await handler({}, { awsRequestId: "MOCK_AWS_REQUEST_ID" });
       // Assert
-      expect(log.tag).toHaveBeenCalledTimes(1);
+      expect(log.tag).toHaveBeenCalled();
       expect(log.tag).toHaveBeenCalledWith({
         invoke: "MOCK_AWS_REQUEST_ID",
       });
@@ -171,13 +171,11 @@ describe("Lambda Handler Module", () => {
           log.warn("Alert level zero");
         });
         const handler = lambdaHandler(mockFunction);
-        // Assume
-        expect(log.tag).not.toHaveBeenCalled();
+        // Assure
         expect(log.warn).not.toHaveBeenCalled();
         // Act
         await handler();
         // Assert
-        expect(log.tag).toHaveBeenCalledTimes(1);
         expect(log.warn).toHaveBeenCalledTimes(1);
         // TODO: assert log tags include handler and layer with valid values
       });

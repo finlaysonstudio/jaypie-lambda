@@ -1,8 +1,7 @@
 import {
   JAYPIE,
   jaypieHandler,
-  log as defaultLogger,
-  moduleLogger as defaultModuleLogger,
+  log as publicLogger,
   ConfigurationError,
   UnhandledError,
 } from "@jaypie/core";
@@ -14,7 +13,6 @@ import {
 
 const lambdaHandler = (
   handler,
-  // We rely on jaypieHandler for all defaults... _except_ log
   { name, setup, teardown, unavailable, validate } = {},
 ) => {
   //
@@ -33,21 +31,22 @@ const lambdaHandler = (
   // Setup
   //
 
-  const jaypieLogger = defaultModuleLogger.with({
-    handler: name || handler.name || JAYPIE.UNKNOWN,
-    logger: JAYPIE.LAYER.LAMBDA,
-  });
-  const moduleLogger = jaypieLogger.with({
+  if (!name) {
+    // If handler has a name, use it
+    if (handler.name) {
+      name = handler.name;
+    } else {
+      name = JAYPIE.UNKNOWN;
+    }
+  }
+
+  publicLogger.tag({ handler: name });
+  const log = publicLogger.with({
     layer: JAYPIE.LAYER.LAMBDA,
     lib: JAYPIE.LIB.LAMBDA,
   });
-  moduleLogger.trace("[jaypie] Lambda init");
-
-  // This will be the public logger
-  const log = defaultLogger.with({
-    handler: name || handler.name || JAYPIE.UNKNOWN,
-    layer: JAYPIE.LAYER.HANDLER,
-  });
+  const libLogger = publicLogger.lib();
+  libLogger.trace("[jaypie] Lambda init");
 
   //
   //
@@ -55,8 +54,6 @@ const lambdaHandler = (
   //
 
   const jaypieFunction = jaypieHandler(handler, {
-    log,
-    moduleLogger: jaypieLogger,
     name,
     setup,
     teardown,
@@ -68,11 +65,9 @@ const lambdaHandler = (
     let response;
 
     try {
-      jaypieLogger.tag({ invoke: context.awsRequestId });
-      log.tag({ invoke: context.awsRequestId });
-      moduleLogger.tag({ invoke: context.awsRequestId });
+      publicLogger.tag({ invoke: context.awsRequestId });
 
-      moduleLogger.trace("[jaypie] Lambda execution");
+      libLogger.trace("[jaypie] Lambda execution");
       log.info.var({ event });
 
       //
