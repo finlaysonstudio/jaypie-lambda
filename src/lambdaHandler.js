@@ -41,11 +41,11 @@ const lambdaHandler = (
   }
 
   publicLogger.tag({ handler: name });
-  const log = publicLogger.with({
+  const log = publicLogger.lib({
     layer: JAYPIE.LAYER.LAMBDA,
     lib: JAYPIE.LIB.LAMBDA,
   });
-  const libLogger = publicLogger.lib();
+  const libLogger = log.lib();
   libLogger.trace("[jaypie] Lambda init");
 
   //
