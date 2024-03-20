@@ -19,7 +19,7 @@ npm install jaypie @jaypie/lambda
 ### Example
 
 ```javascript
-const { lambdaHandler } = require("@jaypie/lambda");
+const { lambdaHandler } = require("jaypie");
 
 const handler = lambdaHandler(async({event}) => {
   // await new Promise(r => setTimeout(r, 2000));
