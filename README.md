@@ -18,16 +18,21 @@ npm install jaypie @jaypie/lambda
 
 ### Example
 
-TODO: Example should include one trivial and possibly one thorough example of using the library
+```javascript
+const { lambdaHandler } = require("@jaypie/lambda");
 
-## 📖 Reference
-
-TODO: Reference should be a complete list of everything in the package
+const handler = lambdaHandler(async({event}) => {
+  // await new Promise(r => setTimeout(r, 2000));
+  // log.debug("Hello World");
+  return "Hello World";
+}, { name: "example"});
+```
 
 ## 📝 Changelog
 
 | Date       | Version | Summary        |
 | ---------- | ------- | -------------- |
+|  3/19/2024 |   1.0.0 | First publish with `@jaypie/core@1.0.0` |
 |  3/16/2024 |   0.1.0 | Initial deploy |
 |  3/15/2024 |   0.0.1 | Initial commit |
 
