@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { HTTP, log } from "@jaypie/core";
-import { matchers, restoreLog, spyLog } from "@jaypie/testkit";
+import { HTTP, jaypieHandler, log } from "@jaypie/core";
+import { restoreLog, spyLog } from "@jaypie/testkit";
 
 // Subject
 import lambdaHandler from "../lambdaHandler.js";
@@ -16,12 +16,21 @@ import lambdaHandler from "../lambdaHandler.js";
 // Mock modules
 //
 
+vi.mock("@jaypie/core", async () => {
+  const actual = await vi.importActual("@jaypie/core");
+  const module = {
+    ...actual,
+    jaypieHandler: vi.fn((handler, options) => {
+      return actual.jaypieHandler(handler, options);
+    }),
+  };
+  return module;
+});
+
 //
 //
 // Mock environment
 //
-
-expect.extend(matchers);
 
 const DEFAULT_ENV = process.env;
 beforeEach(() => {
@@ -178,6 +187,36 @@ describe("Lambda Handler Module", () => {
         // Assert
         expect(log.warn).toHaveBeenCalledTimes(1);
         // TODO: assert log tags include handler and layer with valid values
+      });
+      it("Does not allocate recourses until function is called", async () => {
+        // Arrange
+        const mockFunction = vi.fn();
+        // Act
+        const handler1 = lambdaHandler(mockFunction);
+        const handler2 = lambdaHandler(mockFunction);
+        // Assert
+        expect(jaypieHandler).not.toHaveBeenCalled();
+      });
+      it("Re-uses Jaypie handlers", async () => {
+        // Arrange
+        const mockFunction = vi.fn();
+        // Act
+        const handler1 = lambdaHandler(mockFunction);
+        const handler2 = lambdaHandler(mockFunction);
+        // Assert
+        expect(jaypieHandler).not.toHaveBeenCalled();
+        // Act
+        await handler1();
+        expect(jaypieHandler).toHaveBeenCalledTimes(1);
+        // Act
+        await handler2();
+        // Assert
+        expect(jaypieHandler).toHaveBeenCalledTimes(2);
+        // Act
+        await handler1();
+        await handler2();
+        // Assert
+        expect(jaypieHandler).toHaveBeenCalledTimes(2);
       });
     });
   });
