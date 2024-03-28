@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { HTTP, log } from "@jaypie/core";
-import { matchers, restoreLog, spyLog } from "@jaypie/testkit";
+import { restoreLog, spyLog } from "@jaypie/testkit";
 
 // Subject
 import lambdaHandler from "../lambdaHandler.js";
@@ -20,8 +20,6 @@ import lambdaHandler from "../lambdaHandler.js";
 //
 // Mock environment
 //
-
-expect.extend(matchers);
 
 const DEFAULT_ENV = process.env;
 beforeEach(() => {
