@@ -26,12 +26,14 @@ const lambdaHandler = (
     );
   }
 
-  return async (event = {}, context = {}, ...args) => {
-    //
-    //
-    // Setup
-    //
+  //
+  //
+  // Setup
+  //
 
+  let jaypieFunction;
+
+  return async (event = {}, context = {}, ...args) => {
     if (!name) {
       // If handler has a name, use it
       if (handler.name) {
@@ -60,13 +62,15 @@ const lambdaHandler = (
     // Preprocess
     //
 
-    const jaypieFunction = jaypieHandler(handler, {
-      name,
-      setup,
-      teardown,
-      unavailable,
-      validate,
-    });
+    if (!jaypieFunction) {
+      jaypieFunction = jaypieHandler(handler, {
+        name,
+        setup,
+        teardown,
+        unavailable,
+        validate,
+      });
+    }
 
     let response;
 
@@ -107,6 +111,9 @@ const lambdaHandler = (
     //
 
     // TODO: API Gateway proxy response
+
+    // Clean up the public logger
+    publicLogger.untag("handler");
 
     //
     //

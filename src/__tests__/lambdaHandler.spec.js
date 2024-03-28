@@ -197,6 +197,27 @@ describe("Lambda Handler Module", () => {
         // Assert
         expect(jaypieHandler).not.toHaveBeenCalled();
       });
+      it("Re-uses Jaypie handlers", async () => {
+        // Arrange
+        const mockFunction = vi.fn();
+        // Act
+        const handler1 = lambdaHandler(mockFunction);
+        const handler2 = lambdaHandler(mockFunction);
+        // Assert
+        expect(jaypieHandler).not.toHaveBeenCalled();
+        // Act
+        await handler1();
+        expect(jaypieHandler).toHaveBeenCalledTimes(1);
+        // Act
+        await handler2();
+        // Assert
+        expect(jaypieHandler).toHaveBeenCalledTimes(2);
+        // Act
+        await handler1();
+        await handler2();
+        // Assert
+        expect(jaypieHandler).toHaveBeenCalledTimes(2);
+      });
     });
   });
 });
