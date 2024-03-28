@@ -26,50 +26,49 @@ const lambdaHandler = (
     );
   }
 
-  //
-  //
-  // Setup
-  //
-
-  if (!name) {
-    // If handler has a name, use it
-    if (handler.name) {
-      name = handler.name;
-    } else {
-      name = JAYPIE.UNKNOWN;
-    }
-  }
-
-  // The public logger is also the "root" logger
-  publicLogger.tag({ handler: name });
-
-  // Very low-level, sub-trace details
-  const libLogger = publicLogger.lib({
-    lib: JAYPIE.LIB.LAMBDA,
-  });
-  libLogger.trace("[jaypie] Lambda init");
-
-  //
-  //
-  // Preprocess
-  //
-
-  const jaypieFunction = jaypieHandler(handler, {
-    name,
-    setup,
-    teardown,
-    unavailable,
-    validate,
-  });
-
   return async (event = {}, context = {}, ...args) => {
-    let response;
+    //
+    //
+    // Setup
+    //
 
-    // - Persisting "with" is controversial in my own mind
+    if (!name) {
+      // If handler has a name, use it
+      if (handler.name) {
+        name = handler.name;
+      } else {
+        name = JAYPIE.UNKNOWN;
+      }
+    }
+
+    // The public logger is also the "root" logger
+    publicLogger.tag({ handler: name });
+
+    // Very low-level, sub-trace details
+    const libLogger = publicLogger.lib({
+      lib: JAYPIE.LIB.LAMBDA,
+    });
+    libLogger.trace("[jaypie] Lambda init");
+
     const log = publicLogger.lib({
       level: publicLogger.level,
       lib: JAYPIE.LIB.LAMBDA,
     });
+
+    //
+    //
+    // Preprocess
+    //
+
+    const jaypieFunction = jaypieHandler(handler, {
+      name,
+      setup,
+      teardown,
+      unavailable,
+      validate,
+    });
+
+    let response;
 
     try {
       publicLogger.tag({ invoke: context.awsRequestId });
