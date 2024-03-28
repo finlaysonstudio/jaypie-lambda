@@ -192,8 +192,8 @@ describe("Lambda Handler Module", () => {
         // Arrange
         const mockFunction = vi.fn();
         // Act
-        const handler1 = lambdaHandler(mockFunction);
-        const handler2 = lambdaHandler(mockFunction);
+        lambdaHandler(mockFunction);
+        lambdaHandler(mockFunction);
         // Assert
         expect(jaypieHandler).not.toHaveBeenCalled();
       });
