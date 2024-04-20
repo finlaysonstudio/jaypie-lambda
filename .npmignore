@@ -4,6 +4,9 @@ _templates
 .github
 .jaypie
 .vscode
+babel.config.json
+babel.cjs.config.json
+babel.esm.config.json
 test
 testSetup.js
 vite.config.js
