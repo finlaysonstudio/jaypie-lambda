@@ -26,7 +26,7 @@
     "test:spec:lambdaHandler": "vitest run ./src/__tests__/lambdaHandler.spec.js"
   },
   "dependencies": {
-    "@jaypie/core": "^1.0.20"
+    "@jaypie/core": "^1.0.21"
   },
   "devDependencies": {
     "@jaypie/testkit": "^1.0.15",
