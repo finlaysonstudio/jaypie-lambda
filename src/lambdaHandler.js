@@ -112,6 +112,9 @@ const lambdaHandler = (
 
     // TODO: API Gateway proxy response
 
+    // Log response
+    log.info.var({ response });
+
     // Clean up the public logger
     publicLogger.untag("handler");
 
@@ -120,7 +123,6 @@ const lambdaHandler = (
     // Return
     //
 
-    log.info.var({ response });
     return response;
   };
 };
