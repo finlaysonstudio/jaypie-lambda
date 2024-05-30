@@ -6,7 +6,7 @@ export default {
   input: "src/index.js", // Path to your main JavaScript file
   output: [
     {
-      file: "dist/jaypie-lambda.cjs.js", // Output file for CommonJS
+      file: "dist/jaypie-lambda.cjs", // Output file for CommonJS
       format: "cjs", // CommonJS format
     },
     {
