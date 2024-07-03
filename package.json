@@ -26,10 +26,10 @@
     "test:spec:lambdaHandler": "vitest run ./src/__tests__/lambdaHandler.spec.js"
   },
   "dependencies": {
-    "@jaypie/core": "^1.0.21"
+    "@jaypie/core": "^1.0.37"
   },
   "devDependencies": {
-    "@jaypie/testkit": "^1.0.15",
+    "@jaypie/testkit": "^1.0.19",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "eslint": "^8.57.0",
