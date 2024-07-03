@@ -44,7 +44,10 @@ const lambdaHandler = (
     }
 
     // The public logger is also the "root" logger
-    publicLogger.tag({ invoke: context.awsRequestId });
+    if (context.awsRequestId) {
+      publicLogger.tag({ invoke: context.awsRequestId });
+      publicLogger.tag({ shortInvoke: context.awsRequestId.slice(0, 8) });
+    }
     publicLogger.tag({ handler: name });
 
     // Very low-level, sub-trace details
