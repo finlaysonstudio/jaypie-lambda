@@ -126,7 +126,7 @@ describe("Lambda Handler Module", () => {
       const mockFunction = vi.fn();
       const handler = lambdaHandler(mockFunction);
       // Act
-      await handler({}, { invokeid: "MOCK_AWS_REQUEST_ID" });
+      await handler({}, { awsRequestId: "MOCK_AWS_REQUEST_ID" });
       // Assert
       expect(log.tag).toHaveBeenCalled();
       expect(log.tag).toHaveBeenCalledWith({
