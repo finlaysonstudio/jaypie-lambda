@@ -44,6 +44,7 @@ const lambdaHandler = (
     }
 
     // The public logger is also the "root" logger
+    publicLogger.tag({ invoke: context.invokeid });
     publicLogger.tag({ handler: name });
 
     // Very low-level, sub-trace details
@@ -75,8 +76,6 @@ const lambdaHandler = (
     let response;
 
     try {
-      publicLogger.tag({ invoke: context.awsRequestId });
-
       libLogger.trace("[jaypie] Lambda execution");
       log.info.var({ event });
 
