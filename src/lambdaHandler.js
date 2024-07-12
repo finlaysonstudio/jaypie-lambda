@@ -43,6 +43,9 @@ const lambdaHandler = (
       }
     }
 
+    // Re-init the logger
+    publicLogger.init();
+
     // The public logger is also the "root" logger
     if (context.awsRequestId) {
       publicLogger.tag({ invoke: context.awsRequestId });
