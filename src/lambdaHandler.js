@@ -69,15 +69,13 @@ const lambdaHandler = (
     // Preprocess
     //
 
-    if (!jaypieFunction) {
-      jaypieFunction = jaypieHandler(handler, {
-        name,
-        setup,
-        teardown,
-        unavailable,
-        validate,
-      });
-    }
+    jaypieFunction = jaypieHandler(handler, {
+      name,
+      setup,
+      teardown,
+      unavailable,
+      validate,
+    });
 
     let response;
 
