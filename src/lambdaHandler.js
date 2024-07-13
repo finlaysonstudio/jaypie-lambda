@@ -31,8 +31,6 @@ const lambdaHandler = (
   // Setup
   //
 
-  let jaypieFunction;
-
   return async (event = {}, context = {}, ...args) => {
     if (!name) {
       // If handler has a name, use it
@@ -69,7 +67,7 @@ const lambdaHandler = (
     // Preprocess
     //
 
-    jaypieFunction = jaypieHandler(handler, {
+    const jaypieFunction = jaypieHandler(handler, {
       name,
       setup,
       teardown,
